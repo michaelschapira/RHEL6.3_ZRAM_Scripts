@@ -1,15 +1,18 @@
-zram for Fedora
+TO BE UPDATED 
+
+
+zram for RHEL 6.3
 ===============
 
 zram compresses swap partitions into RAM for performance.
 
-You need Linux kernel version 2.6.37.1 or better to use 
-zram.
+This is not really tested... I am testing in on my onwn system which is runing Linux Kernel 2.6.32-279 (x86_64)
+
 
 Automated Install
 -----------------
+	Install the script in (TO BE UPDATED
 
-	sudo make install
 	sudo systemctl daemon-reload
 	systemctl enable zram.service
 	systemctl start zram.service
