@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+# zram          This shell script takes care of starting and stopping
+#               zram aka compcach. 
+#
+# chkconfig: - 30 60
+# description: 
+#               It loads the zram module and create the appropriate 
+#		amount of virtual devices depending of the number of CPU
+#		It also allocate the right amount of memory to be compressed.
+#		the ratio is set in /etc/default/zram 
+#              
+#              
+# config: /etc/default/zram
+
+### BEGIN INIT INFO
+# Provides: zram
+# Required-Start: 
+# Required-Stop: 
+# Default-Stop: 0 1 2 3 6
+# Short-Description: Start up compressed memory zRam
+# Description:  It loads the zram module and create the appropriate 
+#		amount of virtual devices depending of the number of CPU
+#		It also allocate the right amount of memory to be compressed.
+#		the ratio is set in /etc/default/zram 
+### END INIT INFO
+
+KERNEL=`uname -r`
+#echo $KERNEL
+ZRAM_MOD=/lib/module/$KERNEL/kernel/drivers/staging/zram/zram.ko
+#echo $ZRAM_MOD
+
+case "$1" in
+  start)
+	if [ ! -f $ZRAM_MOD ] ; then
+		echo "Starting zram: " 
+		/usr/local/sbin/zramstart >> /var/log/zram.log 
+		swapon -s
+		exit 1 ; 
+	else
+		echo "zRam module unavailable, could not start compressed memory"	
+	fi
+  ;;
+  
+
+  stop)
+	echo "Stopping zram: "
+	/usr/local/sbin/zramstop 
+	exit 1
+  	;;
+
+  *)
+	echo "Usage $0 start | stop "
+
+esac
